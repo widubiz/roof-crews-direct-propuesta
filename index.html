@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Proposal for Sample Homeowner — Roof Crews Direct</title>
+<style>
+  :root{
+    --midnight:#001233; --navy:#002868; --roofblue:#0057B8; --red:#BF0A30; --reddark:#8F0D1D;
+    --white:#ffffff; --sky:#DCE6F2; --steel:#5A6B82; --ink:#101828; --muted:#5A6B82;
+    --line:#d7dee9; --card:#ffffff; --bg:#f4f6fa; --radius:16px;
+    --condensed:"Oswald","Arial Narrow Bold","Arial Narrow",Impact,"Helvetica Neue Condensed",sans-serif;
+    --body:"Helvetica Neue",Arial,"Liberation Sans",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--bg);line-height:1.55}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  img{max-width:100%}
+  a{color:var(--roofblue)}
+  h1,h2,h3{font-family:var(--condensed);text-transform:uppercase;letter-spacing:.4px;line-height:1.08;margin:0}
+  /* internal bar */
+  .internal-bar{background:#111827;color:#e5e7eb;font-size:.9rem;padding:10px 0;border-bottom:3px solid var(--red)}
+  .internal-bar .wrap{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .internal-bar b{color:#fff;text-transform:uppercase;letter-spacing:.6px}
+  .draft-chip{background:var(--red);color:#fff;font-weight:700;border-radius:999px;padding:2px 12px;font-size:.8rem;letter-spacing:.6px}
+  #togglePersonalize{margin-left:auto;background:var(--navy);color:#fff;border:1px solid #3b5b8c;border-radius:10px;padding:8px 14px;font:inherit;font-size:.9rem;cursor:pointer}
+  #togglePersonalize:hover{background:var(--roofblue)}
+  /* brand header */
+  .brand-header{background:var(--midnight);padding:18px 0}
+  .brand-header .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+  .logo-plate{background:#fff;border-radius:14px;padding:10px 18px;display:inline-flex}
+  .logo-plate img{height:74px;width:auto;display:block}
+  .brand-contact{display:flex;gap:22px;flex-wrap:wrap;color:var(--sky);font-size:.95rem}
+  .brand-contact span{display:block}
+  .brand-contact .lbl{font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:#8fb4dd}
+  .brand-contact b{color:#fff}
+  /* hero */
+  .hero{background:linear-gradient(135deg,var(--midnight) 0%,var(--navy) 70%,var(--roofblue) 130%);color:#fff;padding:52px 0 46px}
+  .hero .wrap{display:grid;grid-template-columns:1.25fr .9fr;gap:34px;align-items:start}
+  @media(max-width:820px){.hero .wrap{grid-template-columns:1fr}}
+  .hero-kicker{display:inline-block;background:var(--red);color:#fff;font-family:var(--condensed);letter-spacing:1.2px;text-transform:uppercase;padding:5px 14px;border-radius:999px;font-size:.9rem}
+  .hero h1{font-size:2.9rem;margin:16px 0 10px}
+  .hero h1 .accent{color:#8fc1f2}
+  .hero .sub{font-size:1.15rem;color:var(--sky);margin:0 0 22px}
+  .hero-meta{display:grid;grid-template-columns:1fr 1fr;gap:14px 22px}
+  .hero-meta .k{font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:#8fb4dd;display:block}
+  .hero-meta .v{font-weight:700}
+  .hero-card{background:#fff;color:var(--ink);border-radius:var(--radius);padding:22px;border-top:6px solid var(--red)}
+  .hero-card h3{color:var(--navy);font-size:1.25rem;margin-bottom:8px}
+  .hero-card .big{font-family:var(--condensed);font-size:2rem;color:var(--red)}
+  .hero-card p{margin:6px 0;color:var(--muted);font-size:.95rem}
+  /* personalize */
+  .personalize{display:none;background:#fff;border:2px dashed var(--navy);border-radius:var(--radius);padding:24px;margin:26px 0}
+  .personalize.open{display:block}
+  .personalize h2{font-size:1.35rem;color:var(--navy);margin-bottom:4px}
+  .personalize .hint{color:var(--muted);font-size:.92rem;margin:0 0 16px}
+  .personalize h3{font-size:1rem;color:var(--navy);margin:20px 0 10px}
+  .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  .form-grid label{display:flex;flex-direction:column;gap:5px;font-size:.88rem;font-weight:700;color:var(--navy)}
+  .form-grid input{font:inherit;font-weight:400;color:var(--ink);padding:9px 11px;border:1px solid var(--line);border-radius:9px}
+  .form-actions{margin-top:16px}
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:11px;padding:12px 20px;font-weight:700;text-decoration:none;border:2px solid transparent;cursor:pointer;font:inherit}
+  .btn-red{background:var(--red);color:#fff}.btn-red:hover{background:var(--reddark)}
+  .btn-navy{background:var(--navy);color:#fff}.btn-navy:hover{background:var(--roofblue)}
+  .btn-ghost{background:#fff;color:var(--navy);border-color:var(--navy)}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+  /* section nav */
+  .sec-nav{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:20;box-shadow:0 2px 10px rgba(0,18,51,.06)}
+  .sec-nav .wrap{display:flex;gap:6px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}
+  .sec-nav a{color:var(--navy);text-decoration:none;font-size:.88rem;font-weight:700;padding:5px 10px;border-radius:999px}
+  .sec-nav a:hover{background:var(--sky)}
+  /* sections */
+  section{padding:44px 0 8px}
+  .sec-head{margin-bottom:18px}
+  .sec-head .num{font-family:var(--condensed);color:var(--red);letter-spacing:1.8px;text-transform:uppercase;font-size:1.08rem;font-weight:800;border-bottom:3px solid var(--red);padding-bottom:3px}
+  .sec-head h2{font-size:2rem;color:var(--navy);margin-top:4px}
+  .sec-head .lede{color:var(--muted);font-size:1.06rem;margin:8px 0 0;max-width:760px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:820px){.grid2,.grid3{grid-template-columns:1fr}}
+  .svc-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+  .svc{background:var(--sky);color:var(--navy);border-radius:999px;padding:7px 15px;font-weight:700;font-size:.92rem}
+  .svc b{color:var(--red)}
+  .stat-card{background:#fff;border:1px solid var(--line);border-top:5px solid var(--roofblue);border-radius:var(--radius);padding:20px}
+  .stat-card .big{font-family:var(--condensed);font-size:1.7rem;color:var(--navy);text-transform:uppercase}
+  .stat-card p{margin:6px 0 0;color:var(--muted);font-size:.95rem}
+  .steps{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+  .steps li{display:flex;gap:14px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px}
+  .steps .n{flex:0 0 42px;height:42px;border-radius:50%;background:var(--navy);color:#fff;font-family:var(--condensed);font-size:1.25rem;display:flex;align-items:center;justify-content:center}
+  .steps h3{font-size:1.1rem;color:var(--navy)}
+  .steps p{margin:4px 0 0;color:var(--muted)}
+  .find-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+  .find{background:#fff;border:1px solid var(--line);border-left:5px solid var(--red);border-radius:12px;padding:16px 18px}
+  .find h3{font-size:1.02rem;color:var(--navy)}
+  .find p{margin:5px 0 0;color:var(--muted);font-size:.93rem}
+  .sample-tag{display:inline-block;background:var(--sky);color:var(--navy);font-size:.72rem;font-weight:700;letter-spacing:.6px;border-radius:999px;padding:2px 10px;text-transform:uppercase}
+  table.cmp{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line)}
+  table.cmp th,table.cmp td{padding:14px 16px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+  table.cmp thead th{background:var(--navy);color:#fff;font-family:var(--condensed);text-transform:uppercase;letter-spacing:.6px;font-size:1.02rem}
+  table.cmp thead th.opt-b{background:var(--red)}
+  table.cmp td:first-child{font-weight:700;color:var(--navy);width:22%}
+  .math-card{background:var(--midnight);color:#fff;border-radius:var(--radius);padding:28px}
+  .math-card h3{color:#8fc1f2;font-size:1.3rem}
+  .math-rows{display:grid;gap:10px;margin-top:14px}
+  .math-rows .row{display:flex;justify-content:space-between;gap:14px;border-bottom:1px dashed #33507f;padding-bottom:10px}
+  .math-rows .row b{font-family:var(--condensed);font-size:1.25rem;letter-spacing:.4px}
+  .math-rows .total b{color:#ffb3c0;font-size:1.6rem}
+  .placeholder{background:#fff7e6;border:1.5px dashed #d97706;color:#92400e;border-radius:10px;padding:12px 16px;font-weight:700}
+  .proposal-card{border:2px solid var(--navy);border-radius:var(--radius);overflow:hidden;background:#fff}
+  .proposal-top{background:var(--navy);color:#fff;padding:22px 26px}
+  .proposal-top h3{font-size:1.4rem}
+  .proposal-top p{margin:4px 0 0;color:var(--sky)}
+  .proposal-body{padding:24px 26px}
+  .glance{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:18px}
+  .glance .k{font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--steel);display:block}
+  .glance .v{font-weight:700}
+  .fineprint{font-size:.86rem;color:var(--muted)}
+  .note-card blockquote{margin:0;font-size:1.05rem}
+  .sig{font-family:var(--condensed);color:var(--navy);letter-spacing:.5px;margin-top:14px}
+  footer{background:var(--midnight);color:var(--sky);padding:36px 0 30px;margin-top:56px}
+  footer .logo-plate{margin-bottom:16px}
+  footer .logo-plate img{height:56px}
+  footer p{font-size:.88rem;max-width:820px}
+  footer .contact-line{color:#fff;font-weight:700}
+  @media print{.internal-bar,.sec-nav,.personalize,.cta-row{display:none !important}body{background:#fff}section{padding-top:26px}}
+</style>
+</head>
+<body>
+
+<!-- ===== Internal bar (internal view) ===== -->
+<div class="internal-bar">
+  <div class="wrap">
+    <b>Internal use</b>
+    <span class="draft-chip">DRAFT — SAMPLE</span>
+    <span>Sample view with a fictional prospect (no real prospect data). Draft — not for sending until the open items inside are closed.</span>
+    <button type="button" id="togglePersonalize" aria-expanded="false">Personalize for another prospect</button>
+  </div>
+</div>
+
+<!-- ===== Brand header ===== -->
+<header class="brand-header">
+  <div class="wrap">
+    <span class="logo-plate"><img src="images/logo.png" alt="Roof Crews Direct" /></span>
+    <nav class="brand-contact" aria-label="About Roof Crews Direct">
+      <span><span class="lbl">Focus</span><b>Repairs + Replacement</b></span>
+      <span><span class="lbl">Area</span><b>Central Florida</b></span>
+      <span><span class="lbl">First step</span><b>Free roof inspection</b></span>
+      <span><span class="lbl">Contact</span><b>[Phone] · [Email]</b></span>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== Hero / personalized header ===== -->
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <span class="hero-kicker">Personalized Proposal — Draft Sample</span>
+      <h1>Prepared for <span class="accent" data-bind="fullName">Sample Homeowner</span></h1>
+      <p class="sub">A complete, honest look at your roof&rsquo;s real condition — repair it or replace it — with the price math in the open, before you spend a dollar.</p>
+      <div class="hero-meta">
+        <div><span class="k">Property</span><div class="v" data-bind="address">123 Example St, Sanford, FL 32771</div></div>
+        <div><span class="k">Date</span><div class="v" data-bind="date">October 28, 2026</div></div>
+        <div><span class="k">Prepared by</span><div class="v">Joe Maldonado — Roof Crews Direct</div></div>
+        <div><span class="k">Your contact on file</span><div class="v"><span data-bind="email">sample.homeowner@example.com</span> · <span data-bind="phone">(407) 555-0100</span></div></div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <h3>Your roof, at a glance</h3>
+      <p>Roof size used in this sample</p>
+      <div class="big"><span data-calc="squares">22</span> squares</div>
+      <p>Full replacement at our published range of <strong>$500–525 per square</strong>:</p>
+      <div class="big"><span data-calc="low">$11,000</span> – <span data-calc="high">$11,550</span></div>
+      <p>Repair pricing for this sample roof: <strong>[TO BE SET WITH THE CONTRACTOR — pending Oct 29 meeting]</strong>. Your real numbers come from your free inspection and satellite measurement — see how the math works below.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Personalize panel ===== -->
+<div class="wrap">
+  <form class="personalize" id="personalizeForm" aria-label="Personalize this proposal">
+    <h2>Generate for another prospect</h2>
+    <p class="hint">Enter the details and the proposal updates instantly on this same page. Nothing is saved or sent — it is only the view.</p>
+    <div class="form-grid">
+      <label><span>First name</span><input name="firstName" value="Sample" autocomplete="off" /></label>
+      <label><span>Last name</span><input name="lastName" value="Homeowner" autocomplete="off" /></label>
+      <label><span>Date</span><input name="date" value="October 28, 2026" autocomplete="off" /></label>
+      <label><span>Property address</span><input name="address" value="123 Example St, Sanford, FL 32771" autocomplete="off" /></label>
+      <label><span>Email</span><input name="email" value="sample.homeowner@example.com" autocomplete="off" /></label>
+      <label><span>Phone</span><input name="phone" value="(407) 555-0100" autocomplete="off" /></label>
+    </div>
+    <h3>Roof details (drive the pricing math)</h3>
+    <div class="form-grid">
+      <label><span>Roof size (squares)</span><input name="squares" value="22" inputmode="numeric" autocomplete="off" /></label>
+      <label><span>Roof age (years)</span><input name="roofAge" value="14" inputmode="numeric" autocomplete="off" /></label>
+      <label><span>Current material</span><input name="roofMaterial" value="Architectural shingle" autocomplete="off" /></label>
+    </div>
+    <div class="form-actions">
+      <button type="button" class="btn btn-ghost" id="resetExample">Restore the sample prospect</button>
+    </div>
+  </form>
+</div>
+
+<!-- ===== Section nav ===== -->
+<nav class="sec-nav" aria-label="Proposal sections">
+  <div class="wrap">
+    <a href="#nota">Note from Joe</a>
+    <a href="#quienes">Who we are</a>
+    <a href="#florida">Florida roofs</a>
+    <a href="#diferencia">Why us</a>
+    <a href="#proceso">How it works</a>
+    <a href="#satelite">Measurement</a>
+    <a href="#ley">Florida law</a>
+    <a href="#hallazgos">Your roof</a>
+    <a href="#esperar">What to expect</a>
+    <a href="#markup">Disclosed markup</a>
+    <a href="#opciones">Repair vs. replace</a>
+    <a href="#matematicas">The math</a>
+    <a href="#financiamiento">Financing</a>
+    <a href="#garantia">Warranty</a>
+    <a href="#propuesta">Your proposal</a>
+    <a href="#reservar">Book inspection</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- ===== 01. Note from Joe ===== -->
+  <section id="nota">
+    <div class="sec-head"><span class="num">01 — Welcome</span><h2>A note from Joe</h2></div>
+    <div class="card note-card">
+      <blockquote>
+        <p><span data-bind="firstName">Sample</span>, thank you for letting us take a serious look at your roof.</p>
+        <p>Roof Crews Direct exists for one reason: homeowners in Central Florida kept telling us the same story — a roofer shows up, gives one big number, and can&rsquo;t (or won&rsquo;t) explain what it&rsquo;s made of. We work the opposite way. We show you your roof&rsquo;s real condition, we give you both honest options — <strong>repair</strong> or <strong>full replacement</strong> — and we put our price math in writing, including exactly what we earn.</p>
+        <p>We don&rsquo;t push you toward the bigger job. If a repair is the right call, we&rsquo;ll say so. If your roof is at the end of its service life, we&rsquo;ll show you why — with measurements and photos, not pressure.</p>
+      </blockquote>
+      <p class="sig">— Joe Maldonado, Roof Crews Direct</p>
+    </div>
+  </section>
+
+  <!-- ===== 02. Who we are ===== -->
+  <section id="quienes">
+    <div class="sec-head"><span class="num">02 — Who we are</span><h2>Roof Crews Direct</h2></div>
+    <div class="card">
+      <p style="font-size:1.12rem;margin-bottom:0">Roof Crews Direct connects Central Florida homeowners <strong>directly with local roofing crews</strong>. We focus on two things and do them well: <strong>roof repairs</strong> and <strong>full roof replacement</strong>. Every project starts with a free inspection — and all roofing work is performed by a <strong>Florida-licensed roofing contractor</strong>, under that contractor&rsquo;s license and contract.</p>
+      <div class="svc-row" aria-label="Services">
+        <span class="svc"><b>◆</b> Roof repairs</span>
+        <span class="svc"><b>◆</b> Full roof replacement</span>
+        <span class="svc"><b>◆</b> Free roof inspection &amp; estimate</span>
+        <span class="svc"><b>◆</b> Satellite-measured proposals</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 03. Florida roofs ===== -->
+  <section id="florida">
+    <div class="sec-head"><span class="num">03 — Florida, by the reality</span><h2>Why Florida roofs wear out sooner</h2>
+      <p class="lede">Hurricanes, driving rain, intense UV and year-round humidity punish Florida roofs like nowhere else in the country. That&rsquo;s why small problems here become expensive ones fast.</p></div>
+    <figure style="margin:0 0 20px"><img src="images/img-1.jpg" alt="Florida home split between sunshine and storm, showing how Florida weather wears a roof" style="width:100%;height:auto;border-radius:14px;display:block;box-shadow:0 10px 30px rgba(0,18,51,.18)"><figcaption style="color:var(--muted);font-size:.92rem;margin-top:8px">One Florida roof, two realities: blazing sun on one side, storm wear on the other. Florida weather works on your roof every single day.</figcaption></figure>
+    <div class="grid3">
+      <div class="stat-card"><div class="big">Wind &amp; storms</div><p>Hurricane-season winds lift shingles, break seals and drive rain under the roof surface — damage that often starts invisibly from the ground.</p></div>
+      <div class="stat-card"><div class="big">Sun &amp; heat</div><p>Relentless UV and attic heat bake shingles year after year, drying them out, curling edges and shedding the protective granules.</p></div>
+      <div class="stat-card"><div class="big">Rain &amp; humidity</div><p>Heavy daily rains find every weak point — flashing, valleys, pipe boots — and Florida humidity keeps small leaks wet instead of letting them dry.</p></div>
+    </div>
+  </section>
+
+  <!-- ===== 04. Why us ===== -->
+  <section id="diferencia">
+    <div class="sec-head"><span class="num">04 — Why us</span><h2>What makes Roof Crews Direct different</h2></div>
+    <div class="grid2">
+      <div class="card"><h3 style="color:var(--navy);font-size:1.2rem">Direct with the crew</h3><p style="margin-bottom:0;color:var(--muted)">No layers of salespeople between you and the people who do the work. You connect directly with local crews, coordinated by us from first inspection to final walkthrough.</p></div>
+      <div class="card"><h3 style="color:var(--navy);font-size:1.2rem">Markup in the open</h3><p style="margin-bottom:0;color:var(--muted)">Our earnings are a <strong>disclosed markup</strong> on the contractor&rsquo;s real cost — shown to you in writing. Never a hidden referral fee. See the full explanation in <a href="#markup">Transparent pricing</a>.</p></div>
+      <div class="card"><h3 style="color:var(--navy);font-size:1.2rem">Both honest options</h3><p style="margin-bottom:0;color:var(--muted)">Every proposal shows the <strong>repair option and the replacement option</strong> side by side, so you decide with the whole picture — not just the option that pays us more.</p></div>
+      <div class="card"><h3 style="color:var(--navy);font-size:1.2rem">Proposal in 24–48 hours</h3><p style="margin-bottom:0;color:var(--muted)">You get a ballpark range right away, then a complete, measured proposal — presentation plus numbers — within <strong>48 hours max, ideally 24</strong>.</p></div>
+    </div>
+  </section>
+
+  <!-- ===== 05. How it works ===== -->
+  <section id="proceso">
+    <div class="sec-head"><span class="num">05 — The process</span><h2>How it works — from estimate to installed roof</h2></div>
+    <ol class="steps">
+      <li><span class="n">1</span><div><h3>Instant range estimate</h3><p>Tell us your roof size (or your home&rsquo;s square footage) and get a real ballpark range right away — for replacement, $500–525 per square. No obligation, no pressure.</p></div></li>
+      <li><span class="n">2</span><div><h3>Free inspection + satellite measurement</h3><p>We inspect your roof&rsquo;s condition and measure it by satellite/aerial imagery, so quantities are documented — not guessed from the driveway.</p></div></li>
+      <li><span class="n">3</span><div><h3>Your full proposal in 24–48 hours</h3><p>This document: findings, the repair option, the replacement option, and the complete price math — the contractor&rsquo;s cost and our disclosed markup, in writing.</p></div></li>
+      <li><span class="n">4</span><div><h3>You contract with the licensed contractor</h3><p>The contract and the license are the licensed roofing contractor&rsquo;s. You always know who is doing the work, under what license, and under what warranty.</p></div></li>
+      <li><span class="n">5</span><div><h3>Install, walkthrough, done</h3><p>The local crew performs the work on the agreed schedule. We coordinate the process and documentation with you from start to finish, through the final walkthrough.</p></div></li>
+    </ol>
+  </section>
+
+  <!-- ===== 06. Satellite measurement ===== -->
+  <section id="satelite">
+    <div class="sec-head"><span class="num">06 — Measurement</span><h2>Measured from the sky, verified on the roof</h2></div>
+    <div class="card"><div class="grid2" style="align-items:center;gap:24px">
+      <figure style="margin:0"><img src="images/img-2.jpg" alt="Sample satellite measurement of a Florida roof: perimeter dimensions, ridge and valley lines, total area in squares" style="width:100%;height:auto;border-radius:12px;display:block;box-shadow:0 10px 30px rgba(0,18,51,.18)"><figcaption style="color:var(--muted);font-size:.92rem;margin-top:8px">Sample satellite measurement — every plane, ridge and valley measured and documented, with the total squares shown. Your proposal includes the report for your roof.</figcaption></figure>
+      <div><p>Every Roof Crews Direct proposal is built on a <strong>satellite/aerial measurement report</strong> of your actual roof: total area in squares, slopes, ridges, valleys and edges — the same quantities the contractor prices from. That means the number of squares in your proposal isn&rsquo;t a guess or a rounding-up: it&rsquo;s measured, documented, and you can see it.</p><p style="margin-bottom:0">We combine that measurement with an on-roof (or attic, where relevant) inspection of condition — because a satellite can measure a roof, but only an inspection can tell you what shape it&rsquo;s in. Your proposal brings both together: <strong>measured quantities + documented condition</strong>.</p></div>
+    </div></div>
+  </section>
+
+  <!-- ===== 07. Florida law ===== -->
+  <section id="ley">
+    <div class="sec-head"><span class="num">07 — Florida law</span><h2>Florida law, in plain English</h2></div>
+    <div class="card">
+      <p>In Florida, roofing work must be performed by — or under — a <strong>licensed roofing contractor</strong>. That&rsquo;s exactly how Roof Crews Direct is structured:</p>
+      <ul>
+        <li><strong>We are a marketing and lead-generation company.</strong> Roof Crews Direct is not a roofing contractor and does not perform roofing work.</li>
+        <li><strong>Your contract is with the licensed contractor</strong> who performs the work — their license, their permits, their warranty obligations.</li>
+        <li><strong>The contractor&rsquo;s identity is confirmed to you before you sign anything</strong> — at the proposal stage, you know exactly who will be on your roof.</li>
+        <li><strong>Our markup is disclosed</strong> as part of the price you agree to — it is not a hidden fee added later.</li>
+      </ul>
+      <p style="margin-bottom:0" class="fineprint">This section is a plain-English summary of how the work is structured, not legal advice.</p>
+    </div>
+  </section>
+
+  <!-- ===== 08. Your roof — findings ===== -->
+  <section id="hallazgos">
+    <div class="sec-head"><span class="num">08 — Your roof</span><h2>Where roof problems start — what we check</h2>
+      <p class="lede">These are the condition findings we document on every inspection. On this sample, they&rsquo;re shown as examples — your inspection fills in your roof&rsquo;s real findings, with photos.</p></div>
+    <div class="find-grid">
+      <div class="find"><img src="images/img-3.jpg" alt="Close-up of damaged and missing shingles exposing the underlayment" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;display:block;margin-bottom:10px"><span class="sample-tag">Sample finding</span><h3>Damaged or missing shingles</h3><p>Cracked, curled or missing shingles expose the underlayment to direct rain and UV.</p></div>
+      <div class="find"><img src="images/img-4.jpg" alt="Close-up of shingle granule loss and granules collected in a gutter" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;display:block;margin-bottom:10px"><span class="sample-tag">Sample finding</span><h3>Granule loss</h3><p>Granules in the gutters mean the shingle surface is wearing — the roof&rsquo;s first line of defense is thinning.</p></div>
+      <div class="find"><img src="images/img-5.jpg" alt="Close-up of failed flashing around a roof penetration" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;display:block;margin-bottom:10px"><span class="sample-tag">Sample finding</span><h3>Flashing failures</h3><p>Flashing around chimneys, walls and vents is the #1 leak source we find — and often a repair, not a replacement.</p></div>
+      <div class="find"><img src="images/img-6.jpg" alt="Close-up of exposed fasteners and lifted ridge caps" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;display:block;margin-bottom:10px"><span class="sample-tag">Sample finding</span><h3>Exposed nails &amp; ridge caps</h3><p>Lifted ridge caps and exposed fasteners let wind-driven rain straight in at the roof&rsquo;s highest points.</p></div>
+      <div class="find"><img src="images/img-7.jpg" alt="Roof valley clogged with leaves and debris holding water" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;display:block;margin-bottom:10px"><span class="sample-tag">Sample finding</span><h3>Valley debris &amp; drainage</h3><p>Debris dams in valleys hold water against the shingles and back it up under the surface.</p></div>
+      <div class="find"><img src="images/img-8.jpg" alt="Close-up of a cracked rubber pipe boot around a plumbing vent" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;display:block;margin-bottom:10px"><span class="sample-tag">Sample finding</span><h3>Vent &amp; pipe boots</h3><p>Cracked rubber boots around plumbing vents are a small part with an outsized leak history — a classic targeted repair.</p></div>
+    </div>
+  </section>
+
+  <!-- ===== 09. What to expect ===== -->
+  <section id="esperar">
+    <div class="sec-head"><span class="num">09 — What to expect</span><h2>What you can expect, start to finish</h2></div>
+    <div class="grid2">
+      <div class="card"><h3 style="color:var(--navy);font-size:1.15rem">Before you decide</h3><p style="margin-bottom:0;color:var(--muted)">A free inspection, measured quantities, both options priced, and our markup in writing. Take your time — the proposal is yours to keep and compare.</p></div>
+      <div class="card"><h3 style="color:var(--navy);font-size:1.15rem">When you say yes</h3><p style="margin-bottom:0;color:var(--muted)">You sign with the licensed contractor, scheduling is confirmed, and permits are handled by the contractor as part of the job.</p></div>
+      <div class="card"><h3 style="color:var(--navy);font-size:1.15rem">During the work</h3><p style="margin-bottom:0;color:var(--muted)">The local crew does the work on the agreed timeline. We coordinate and keep you updated — one point of contact, no chasing subcontractors.</p></div>
+      <div class="card"><h3 style="color:var(--navy);font-size:1.15rem">After the work</h3><p style="margin-bottom:0;color:var(--muted)">A final walkthrough with you, the contractor&rsquo;s warranty paperwork in your hands, and our number saved for anything that comes up later.</p></div>
+    </div>
+  </section>
+
+  <!-- ===== 10. Disclosed markup ===== -->
+  <section id="markup">
+    <div class="sec-head"><span class="num">10 — Transparent pricing</span><h2>How our pricing works — the disclosed markup</h2></div>
+    <div class="card">
+      <p>Most roofing quotes are one opaque number. Ours is an equation we show you:</p>
+      <p style="font-size:1.2rem;text-align:center;padding:14px;background:var(--sky);border-radius:12px"><strong style="color:var(--navy)">Contractor&rsquo;s real cost</strong> &nbsp;+&nbsp; <strong style="color:var(--red)">our disclosed markup</strong> &nbsp;=&nbsp; <strong>your price</strong></p>
+      <ul>
+        <li>The <strong>licensed contractor sets their cost</strong> for your job — labor, materials, dumpster, permits.</li>
+        <li><strong>We add our markup on top, and the contractor knows it</strong> — that&rsquo;s what makes it clean and legal. It is <em>not</em> a referral fee taken in secret from a price that was padded to hide it.</li>
+        <li><strong>You see the structure in your proposal</strong>, and the contractor collects the contract price and pays us our share.</li>
+        <li>Because the markup is disclosed, our incentive is simple: a fair price you&rsquo;d recommend to your neighbor — our growth comes from the 50 homes around yours.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== 11. Repair vs replacement ===== -->
+  <section id="opciones">
+    <div class="sec-head"><span class="num">11 — Your options</span><h2>Repair vs. replacement — side by side</h2>
+      <p class="lede">Every Roof Crews Direct proposal puts both options in front of you. Here&rsquo;s how they compare on this sample roof (<span data-calc="squares">22</span> squares, <span data-bind="roofAge">14</span> years old, <span data-bind="roofMaterial">Architectural shingle</span>).</p></div>
+    <table class="cmp">
+      <thead><tr><th></th><th>Option A — Repair</th><th class="opt-b">Option B — Full replacement</th></tr></thead>
+      <tbody>
+        <tr><td>What it does</td><td>Fixes the documented problems — flashing, boots, damaged sections — and stops active leaks.</td><td>Removes the old roof and installs a complete new roofing system over the whole surface.</td></tr>
+        <tr><td>Best when</td><td>The roof is otherwise sound and the damage is localized.</td><td>Wear is widespread, leaks keep coming back, or the roof is at/near the end of its service life.</td></tr>
+        <tr><td>Price on this sample</td><td><strong>[TO BE SET WITH THE CONTRACTOR — pending Oct 29 meeting]</strong></td><td><strong><span data-calc="low">$11,000</span> – <span data-calc="high">$11,550</span></strong> (<span data-calc="squares">22</span> squares × $500–525)</td></tr>
+        <tr><td>Warranty</td><td>Per the licensed contractor&rsquo;s warranty for the repaired work.</td><td>Per the licensed contractor&rsquo;s workmanship warranty + the manufacturer&rsquo;s materials warranty, as provided by the contractor.</td></tr>
+        <tr><td>Our honest take</td><td>If your findings are localized, this is where we&rsquo;ll point you first.</td><td>If your roof&rsquo;s wear is overall, a repair buys months, not years — we&rsquo;ll show you the findings that lead us there.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ===== 12. The math ===== -->
+  <section id="matematicas">
+    <div class="sec-head"><span class="num">12 — The math</span><h2>The math most homeowners never see</h2>
+      <p class="lede">Replacement pricing at Roof Crews Direct is published and simple — a per-square range that sits at the low end of the Central Florida market ($500–750 per square is the typical market span).</p></div>
+    <div class="math-card">
+      <h3>Worked example — this sample roof</h3>
+      <div class="math-rows">
+        <div class="row"><span>Measured roof size</span><b><span data-calc="squares">22</span> SQUARES</b></div>
+        <div class="row"><span>At the low end of our range (× $500)</span><b data-calc="low">$11,000</b></div>
+        <div class="row"><span>At the high end of our range (× $525)</span><b data-calc="high">$11,550</b></div>
+        <div class="row total"><span>Your full replacement range</span><b><span data-calc="low">$11,000</span> – <span data-calc="high">$11,550</span></b></div>
+      </div>
+      <p style="color:var(--sky);margin-bottom:0">Change the squares in the Personalize panel above and this math updates live. Your final proposal fixes the exact number inside this range after inspection confirms complexity (steepness, layers, decking condition).</p>
+    </div>
+    <div style="height:16px"></div>
+    <div class="placeholder">REPAIR PRICING: [TO BE SET WITH THE CONTRACTOR — pending Oct 29 meeting]. Repair scopes and prices are set with the licensed contractor and are never guessed in a proposal.</div>
+  </section>
+
+  <!-- ===== 13. Financing ===== -->
+  <section id="financiamiento">
+    <div class="sec-head"><span class="num">13 — Financing</span><h2>Financing — options, reviewed together</h2></div>
+    <div class="card">
+      <p>A new roof rarely lands on a convenient month. If paying over time makes the decision easier, <strong>financing options are available and we review them together in your proposal meeting</strong> — with the actual terms on the table before you decide anything.</p>
+      <ul style="margin-bottom:0">
+        <li>We walk through the options that fit your project size and your situation — no obligation to use any of them.</li>
+        <li>Your exact terms are confirmed by the financing provider at application; nothing about financing is final in this proposal.</li>
+        <li>Paying in full is always an option too — the proposal price is the same either way.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== 14. Warranty ===== -->
+  <section id="garantia">
+    <div class="sec-head"><span class="num">14 — Warranty</span><h2>Warranty — in the contractor&rsquo;s name, in writing</h2></div>
+    <div class="card">
+      <p>Your work is covered by <strong>the licensed contractor&rsquo;s warranty</strong>: their workmanship warranty on the installation, together with the <strong>manufacturer&rsquo;s warranty</strong> on the materials installed — both as provided by the contractor and the manufacturer, and both delivered to you in writing at contracting.</p>
+      <p style="margin-bottom:0">Roof Crews Direct coordinates your project, but warranties on roofing work belong to — and are honored by — the licensed contractor who performs it. In your final proposal, the contractor is named, so you know exactly whose warranty you hold before you sign.</p>
+    </div>
+  </section>
+
+  <!-- ===== 15. Your proposal ===== -->
+  <section id="propuesta">
+    <div class="sec-head"><span class="num">15 — Your proposal</span><h2>Your proposal, <span data-bind="fullName">Sample Homeowner</span></h2></div>
+    <div class="proposal-card">
+      <div class="proposal-top">
+        <h3>Prepared for <span data-bind="fullName">Sample Homeowner</span></h3>
+        <p><span data-bind="address">123 Example St, Sanford, FL 32771</span> · Sample property details shown — your real numbers come from your free inspection</p>
+      </div>
+      <div class="proposal-body">
+        <div class="glance">
+          <div><span class="k">Home</span><div class="v">Sample home · Sanford, FL</div></div>
+          <div><span class="k">Roof age</span><div class="v"><span data-bind="roofAge">14</span> years</div></div>
+          <div><span class="k">Material</span><div class="v" data-bind="roofMaterial">Architectural shingle</div></div>
+          <div><span class="k">Measured size</span><div class="v"><span data-calc="squares">22</span> squares</div></div>
+        </div>
+        <p><strong>Replacement range:</strong> <strong style="color:var(--red)"><span data-calc="low">$11,000</span> – <span data-calc="high">$11,550</span></strong> at $500–525 per square. <strong>Repair option:</strong> [TO BE SET WITH THE CONTRACTOR — pending Oct 29 meeting]. Price structure: contractor&rsquo;s real cost + our disclosed markup, in writing — see <a href="#markup">Transparent pricing</a>.</p>
+        <h3 style="font-size:1.08rem;margin-bottom:8px;color:var(--navy)">Next steps</h3>
+        <ol class="steps" style="gap:10px">
+          <li><span class="n">1</span><div><p style="margin:0;color:var(--ink)"><strong>Review this proposal</strong> — findings, both options, and the complete math. It&rsquo;s yours to keep and compare.</p></div></li>
+          <li><span class="n">2</span><div><p style="margin:0;color:var(--ink)"><strong>Book your proposal meeting</strong> — we walk the findings and the financing options together and answer every question, in person or by phone.</p></div></li>
+          <li><span class="n">3</span><div><p style="margin:0;color:var(--ink)"><strong>If you move forward, you contract directly with the licensed contractor</strong> — named in your final proposal — and we coordinate scheduling through the final walkthrough.</p></div></li>
+        </ol>
+        <div class="cta-row">
+          <a class="btn btn-red" href="#reservar">Book my free inspection →</a>
+          <a class="btn btn-ghost" href="#opciones">Compare repair vs. replacement</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 16. Book your free inspection ===== -->
+  <section id="reservar">
+    <div class="sec-head"><span class="num">16 — Next step</span><h2>Book your free roof inspection</h2>
+      <p class="lede">Haven&rsquo;t had your inspection yet? That&rsquo;s where every real number in a proposal like this one comes from — and it costs you nothing.</p></div>
+    <div class="card">
+      <div class="grid2">
+        <div>
+          <h3 style="color:var(--navy);font-size:1.15rem">What the free inspection includes</h3>
+          <ul style="margin-bottom:0">
+            <li>On-roof condition check of the findings listed in this proposal</li>
+            <li>Satellite/aerial measurement of your roof, in squares</li>
+            <li>Both options priced: repair and full replacement</li>
+            <li>This complete proposal at your table within 24–48 hours</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="color:var(--navy);font-size:1.15rem">What it doesn&rsquo;t include</h3>
+          <ul style="margin-bottom:0">
+            <li>No cost and no obligation — the proposal is yours either way</li>
+            <li>No pressure tactics and no expiring “today-only” prices</li>
+            <li>No work sold before you&rsquo;ve seen the documented findings</li>
+          </ul>
+        </div>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-red" href="#" onclick="return false;">Book my free inspection</a>
+        <a class="btn btn-navy" href="#" onclick="return false;">Call [Phone]</a>
+        <a class="btn btn-ghost" href="#" onclick="return false;">Email [Email]</a>
+      </div>
+      <p class="fineprint" style="margin-top:14px"><strong>Draft / preview notice:</strong> this is a sample copy of the Roof Crews Direct proposal with a fictional prospect. Contact details and booking links are placeholders in this draft and are activated in the live version. Repair pricing shown as a placeholder is set with the licensed contractor (pending the Oct 29 meeting) before any real proposal is sent.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== Footer / legal ===== -->
+<footer>
+  <div class="wrap">
+    <span class="logo-plate"><img src="images/logo.png" alt="Roof Crews Direct" /></span>
+    <p>Roof Crews Direct is a marketing and lead-generation company. Roof Crews Direct is NOT a roofing contractor and does not perform, supervise, or warrant any roofing work. All inspections, diagnoses, estimates, contracts, permits, and roofing work are provided solely by independent, Florida-licensed roofing contractors. Prices in this sample are illustrative of the published $500–525 per-square replacement range; your final price is set in your personalized proposal after inspection.</p>
+    <p class="contact-line">Roof Crews Direct · Central Florida · [Phone] · [Email] · roofcrewsdirect.com</p>
+    <p>DRAFT — SAMPLE PROPOSAL · Fictional prospect: <span data-bind="fullName">Sample Homeowner</span>, <span data-bind="address">123 Example St, Sanford, FL 32771</span></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var panel = document.getElementById('personalizeForm');
+  var toggle = document.getElementById('togglePersonalize');
+  var defaults = {};
+  panel.querySelectorAll('input[name]').forEach(function(inp){ defaults[inp.name] = inp.value; });
+
+  function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+
+  function bind(state){
+    var full = ((state.firstName || '') + ' ' + (state.lastName || '')).trim();
+    document.querySelectorAll('[data-bind]').forEach(function(el){
+      var key = el.getAttribute('data-bind');
+      if (key === 'fullName') el.textContent = full || '—';
+      else if (state[key] !== undefined) el.textContent = state[key] || '—';
+    });
+    document.title = 'Proposal for ' + (full || 'Homeowner') + ' — Roof Crews Direct';
+    var sq = parseFloat(state.squares);
+    if (isNaN(sq) || sq < 0) sq = 0;
+    var calc = { squares: String(state.squares || '—'), low: money(sq * 500), high: money(sq * 525) };
+    document.querySelectorAll('[data-calc]').forEach(function(el){
+      var k = el.getAttribute('data-calc');
+      if (calc[k] !== undefined) el.textContent = calc[k];
+    });
+  }
+
+  function readForm(){
+    var state = {};
+    panel.querySelectorAll('input[name]').forEach(function(inp){ state[inp.name] = inp.value; });
+    return state;
+  }
+
+  function syncToggle(){
+    var open = panel.classList.contains('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.textContent = open ? 'Close personalization' : 'Personalize for another prospect';
+  }
+
+  toggle.addEventListener('click', function(){
+    panel.classList.toggle('open');
+    syncToggle();
+    if (panel.classList.contains('open')) panel.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  panel.addEventListener('input', function(){ bind(readForm()); });
+  panel.addEventListener('submit', function(e){ e.preventDefault(); });
+
+  document.getElementById('resetExample').addEventListener('click', function(){
+    panel.querySelectorAll('input[name]').forEach(function(inp){
+      if (defaults[inp.name] !== undefined) inp.value = defaults[inp.name];
+    });
+    bind(readForm());
+  });
+
+  /* Footer logo reuses the single embedded copy from the header (keeps this file lean). */
+  var headerLogo = document.querySelector('.brand-header .logo-plate img');
+  var footerLogo = document.querySelector('footer .logo-plate img');
+  if (headerLogo && footerLogo && !footerLogo.getAttribute('src')) footerLogo.src = headerLogo.src;
+
+  bind(defaults);
+})();
+</script>
+</body>
+</html>
